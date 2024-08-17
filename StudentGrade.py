@@ -1,7 +1,17 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QTextEdit, QVBoxLayout, QWidget, QSizePolicy, QMessageBox
 from PyQt5.QtGui import QFont, QIntValidator
+from typing import List
 
-def input_grades(scores):
+def input_grades(scores: List[int]) -> List[str]:
+    """
+    Calculate the grades for a list of scores based on the highest score.
+
+    Args:
+        scores (List[int]): List of student scores.
+
+    Returns:
+        List[str]: List of grades corresponding to each score.
+    """
     best_score = max(scores)
     grades = []
     for score in scores:
@@ -18,13 +28,19 @@ def input_grades(scores):
     return grades
 
 class StudentGrade(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        Initialize the main for the Student Grade application.
+        """
         super().__init__()
         self.setWindowTitle("Student Grade")
-        self.setGeometry(100, 100, 600, 600)  
+        self.setGeometry(100, 100, 600, 600)
         self.init_ui()
 
-    def init_ui(self):
+    def init_ui(self) -> None:
+        """
+        Initialize the UI components of the application.
+        """
         font = QFont()
         font.setPointSize(10)
 
@@ -32,7 +48,7 @@ class StudentGrade(QMainWindow):
         self.student_count_label.setFont(font)
         self.student_count_entry = QLineEdit()
         self.student_count_entry.setFont(font)
-        self.student_count_entry.setValidator(QIntValidator(1, 100, self))  
+        self.student_count_entry.setValidator(QIntValidator(1, 100, self))
 
         self.scores_label = QLabel("Enter scores separated by space:")
         self.scores_label.setFont(font)
@@ -70,7 +86,10 @@ class StudentGrade(QMainWindow):
         container.setLayout(layout)
         self.setCentralWidget(container)
 
-    def calculate_grades(self):
+    def calculate_grades(self) -> None:
+        """
+        Calculate and display the grades for the entered scores.
+        """
         student_count_text = self.student_count_entry.text()
         scores_text = self.scores_entry.text()
 
@@ -93,7 +112,10 @@ class StudentGrade(QMainWindow):
         except ValueError:
             self.show_message("Error", "Please enter valid numbers for both student count and scores.")
 
-    def calculate_stats(self):
+    def calculate_stats(self) -> None:
+        """
+        Calculate and display data (average, highest, lowest) for the entered scores.
+        """
         scores_text = self.scores_entry.text()
 
         if not scores_text:
@@ -115,14 +137,31 @@ class StudentGrade(QMainWindow):
         except ValueError:
             self.show_message("Error", "Please enter valid numbers for scores.")
 
-    def display_result(self, result):
+    def display_result(self, result: str) -> None:
+        """
+        Display the result in the text area.
+
+        Args:
+            result (str): The result string to display.
+        """
         self.result_text.setPlainText(result)
 
-    def reset_fields(self):
+    def reset_fields(self) -> None:
+        """
+        Reset all input and the result.
+        """
         self.student_count_entry.clear()
         self.scores_entry.clear()
         self.result_text.clear()
 
-    def show_message(self, title, message):
+    def show_message(self, title: str, message: str) -> None:
+        """
+        Display an error message in a message box.
+
+        Args:
+            title (str): The title of the message box.
+            message (str): The content of the message.
+        """
         QMessageBox.critical(self, title, message)
+
 
